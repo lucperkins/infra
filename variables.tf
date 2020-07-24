@@ -7,6 +7,11 @@ variable "do_region" {
   default = "sfo2"
 }
 
+variable "do_k8s_image_size {
+  type    = string
+  default = "s-1vcpu-2gb"
+}
+
 variable "cloudflare_api_key" {
   type = string
 }
