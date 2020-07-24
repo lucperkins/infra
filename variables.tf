@@ -3,6 +3,16 @@ variable "do_token" {
   type = string
 }
 
+variable "do_region" {
+  type    = string
+  default = "sfo2"
+}
+
+variable "do_k8s_image_size" {
+  type    = string
+  default = "s-1vcpu-2gb"
+}
+
 # CloudFlare
 variable "cloudflare_api_key" {
   type = string
