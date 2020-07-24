@@ -14,3 +14,8 @@ resource "cloudflare_workers_kv" "name" {
   key          = "secret"
   value        = "open-sesame-123"
 }
+
+resource "cloudflare_worker_script" "hello" {
+  name    = "hello"
+  content = file("hello.js")
+}
