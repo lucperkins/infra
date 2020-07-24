@@ -1,28 +1,50 @@
-provider "aws" {
-  version = "2.33.0"
-
-  region = var.aws_region
+provider "digitalocean" {
+  token = var.do_token
 }
 
-provider "random" {
-  version = "2.2"
+data "digitalocean_kubernetes_versions" "dev" {
+  version_prefix = "1.18."
 }
 
-resource "random_pet" "table_name" {}
+resource "digitalocean_kubernetes_cluster" "dev" {
+  name         = "k8s-dev"
+  region       = var.do_region
+  auto_upgrade = true
+  version      = data.digitalocean_kubernetes_versions.dev.latest_version
 
-resource "aws_dynamodb_table" "tfc_example_table" {
-  name = "${var.db_table_name}-${random_pet.table_name.id}"
+  node_pool {
+    name       = "default-pool"
+    size       = "s-2vcpu-2gb"
+    node_count = 2
 
-  read_capacity  = var.db_read_capacity
-  write_capacity = var.db_write_capacity
-  hash_key       = "UUID"
-
-  attribute {
-    name = "UUID"
-    type = "S"
+    labels = {
+      service  = "default"
+      priority = "high"
+    }
   }
+}
 
-  tags = {
-    user_name = var.tag_user_name
+
+resource "digitalocean_kubernetes_node_pool" "workers" {
+  cluster_id = digitalocean_kubernetes_cluster.dev.id
+
+  name       = "worker-pool"
+  size       = "c-2"
+  auto_scale = true
+  min_nodes  = 1
+  max_nodes  = 5
+
+  labels = {
+    service  = "workers"
+    priority = "low"
   }
+}
+
+provider "kubernetes" {
+  load_config_file = false
+  host             = digitalocean_kubernetes_cluster.dev.endpoint
+  token            = digitalocean_kubernetes_cluster.dev.kube_config[0].token
+  cluster_ca_certificate = base64decode(
+    digitalocean_kubernetes_cluster.dev.kube_config[0].cluster_ca_certificate
+  )
 }
