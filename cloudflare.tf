@@ -18,4 +18,9 @@ resource "cloudflare_workers_kv" "name" {
 resource "cloudflare_worker_script" "hello" {
   name    = "hello"
   content = file("hello.js")
+
+  kv_namespace_binding {
+    name         = "name"
+    namespace_id = cloudflare_workers_kv_namespace.main.id
+  }
 }
