@@ -24,3 +24,10 @@ resource "digitalocean_kubernetes_cluster" "dev" {
     node_count = 1
   }
 }
+
+resource "digitalocean_droplet" "nixos" {
+  image  = "nixos-20.03-1596850972"
+  name   = "nixos"
+  region = var.do_region
+  size   = var.do_droplet_image_size
+}

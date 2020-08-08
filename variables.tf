@@ -13,6 +13,11 @@ variable "do_k8s_image_size" {
   default = "s-1vcpu-2gb"
 }
 
+variable "do_droplet_image_size" {
+  type    = string
+  default = "s-2vcpu-4gb"
+}
+
 # CloudFlare
 variable "cloudflare_api_key" {
   type = string
