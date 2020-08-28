@@ -24,3 +24,8 @@ resource "digitalocean_kubernetes_cluster" "dev" {
     node_count = 1
   }
 }
+
+resource "digitalocean_spaces_bucket" "nix_cache" {
+  name = "nix-cache"
+  region = var.do_region
+}
