@@ -10,7 +10,10 @@ resource "digitalocean_kubernetes_cluster" "dev" {
   }
 }
 
-resource "kubernetes" "dev" {
+
+provider "kubernetes" {
+  version = "2.0.2"
+
   host = digitalocean_kubernetes_cluster.dev.ipv4_address
 
   client_certificate     = digitalocean_kubernetes_cluster.dev.kube_config.0.client_certificate
