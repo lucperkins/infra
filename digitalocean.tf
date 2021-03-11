@@ -1,6 +1,6 @@
 resource "digitalocean_kubernetes_cluster" "dev" {
   name   = "datadog-dev"
-  region = "sfo1"
+  region = "sfo3"
   version = "1.20.2-do.0"
 
   node_pool {
