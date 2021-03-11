@@ -17,3 +17,8 @@ variable "do_k8s_node_pool_size" {
   type    = number
   default = 3
 }
+
+variable "vector_num_aggregators" {
+  type    = number
+  default = 1
+}
