@@ -1,6 +1,11 @@
-resource "digitalocean_droplet" "rust" {
-  image = "ubuntu-20-04-x64"
-  name = "rust-1"
-  region = "nyc1"
-  size = "s-4vcpu-8gb"
+resource "digitalocean_kubernetes_cluster" "dev" {
+  name   = "datadog-dev"
+  region = "sfo1"
+  version = "1.20.2-do.0"
+
+  node_pool {
+    name       = "worker-pool"
+    size       = "s-2vcpu-2gb"
+    node_count = 3
+  }
 }
