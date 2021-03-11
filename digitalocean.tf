@@ -1,12 +1,12 @@
 resource "digitalocean_kubernetes_cluster" "dev" {
   name    = "datadog-dev"
-  region  = "sfo3"
+  region  = var.do_k8s_region
   version = "1.20.2-do.0"
 
   node_pool {
     name       = "worker-pool"
-    size       = "s-2vcpu-2gb"
-    node_count = 3
+    size       = var.do_k8s_droplet_image_size
+    node_count = var.do_k8s_node_pool_size
   }
 }
 
